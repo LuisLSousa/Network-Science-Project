@@ -26,7 +26,7 @@ aspl = nx.average_shortest_path_length(G)             # 18.989185424445708
 # Normal Scale
 # plotDegreeDistribution(degreeFrequencies, logScale=False)
 
-# Logoritmic scale
+# Logarithmic scale
 # plotDegreeDistribution(degreeFrequencies, logScale=True)
 
 # With Power law plot
@@ -38,7 +38,17 @@ aspl = nx.average_shortest_path_length(G)             # 18.989185424445708
 
 # drawGraphQuantile(G)
 
-# drawGiantComponent(G, 'giant')
+# remove one (or both) of the nodes with +15 links and draw graph
+# Hubs: node 4458 - 18 links
+#       node 2553 - 19 links
 
-# drawGraphWithHubs(G, degreeFrequencies)
+G.remove_node(4458)
+G.remove_node(2553)
+
+drawGraphWithHubs(G)
+
+drawGiantComponent(G, 'giant')
+
+
+
 
