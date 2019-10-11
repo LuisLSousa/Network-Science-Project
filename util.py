@@ -198,3 +198,32 @@ def multiple_line_chart(ax, xvalues, yvalues, title, xlabel, ylabel, percentage=
         ax.plot(xvalues, y)
         legend.append(name)
     ax.legend(legend, loc='best', fancybox=True, shadow=True)
+
+
+def extractHubs(G, degree_threshold=10):
+    hubs = []
+    notHubs = []
+    for i in G:
+        if G.degree(i) >= degree_threshold:
+            hubs.append(i)
+        else:
+            notHubs.append(i)
+    return hubs, notHubs
+
+def drawGraphWithHubs(G, degree_treshold=15):
+    # Initialze Figure
+    plt.figure(dpi=500)
+    plt.axis('off')
+    fig = plt.figure(1)
+    
+    hubs, notHubs = extractHubs(G, degree_threshold)
+    pos = nx.spectral_layout(G)
+
+    nx.draw_networkx_nodes(G, pos, nodelist=notHubs, node_color='blue', alpha=0.4, node_size=5)
+    nx.draw_networkx_nodes(G, pos, nodelist=hubs, node_color='red', node_size=10)
+    nx.draw_networkx_edges(G, pos)
+    # nx.draw_networkx_labels(graph, pos)
+
+    plt.show()
+    pylab.close()
+    del fig
