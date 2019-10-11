@@ -210,12 +210,12 @@ def extractHubs(G, degree_threshold=10):
             notHubs.append(i)
     return hubs, notHubs
 
-def drawGraphWithHubs(G, degree_treshold=15):
+def drawGraphWithHubsV2(G, degree_treshold=15):
     # Initialze Figure
     plt.figure(dpi=500)
     plt.axis('off')
     fig = plt.figure(1)
-    
+
     hubs, notHubs = extractHubs(G, degree_threshold)
     pos = nx.spectral_layout(G)
 
