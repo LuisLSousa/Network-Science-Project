@@ -210,7 +210,7 @@ def extractHubs(G, degree_threshold=10):
             notHubs.append(i)
     return hubs, notHubs
 
-def drawGraphWithHubsV2(G, degree_treshold=15):
+def drawGraphWithHubsV2(G, degree_threshold=15):
     # Initialze Figure
     plt.figure(dpi=500)
     plt.axis('off')
