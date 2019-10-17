@@ -1,10 +1,9 @@
 dataset: 'src/data/power.gml'
-targetedAttack: True   # Takes precedent
-randomFailure: False
+attackType: hubs  # random
 stopCondition: density
 stopCondArgs:
-  threshold: 53e-5
+  threshold: 50e-5
 hubPercentage: 0.02
-numNodesToRemove: 7
-initialLog: 1
-logFreq: 3    # From x to x iterations we calculate graph stats
+numNodesToRemove: 2
+initialLog: 10
+logFreq: 5    # From x to x iterations we calculate graph stats

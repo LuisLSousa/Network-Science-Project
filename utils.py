@@ -209,7 +209,7 @@ def unifyOutputs(dir):
 
 
 
-def multipleYsLinePlot(data, y_types, x_type, outputName='', ymin=True, ymax=True):
+def multipleYsLinePlot(data, y_types, x_type, outputName='', ymin=True, ymax=True, dpi=180):
     '''
     :param data:    (pd.Dataframe) Data out of output.csv
     :param y_types: (array) Headers to be used from output.csv
@@ -226,14 +226,15 @@ def multipleYsLinePlot(data, y_types, x_type, outputName='', ymin=True, ymax=Tru
         x = data[x_type]
 
     print(data)
+    maxNum = 0
     for t in y_types:
         ax.plot(x, data[t], label=t)
+        maxNum = max(data[t]) if max(data[t]) > maxNum else maxNum
+
     ax.legend()
-    if ymin:
-        ax.set_ylim(bottom=0)
-    if ymax:
-        ax.set_ylim(top=1)
-    plt.savefig(outputName)
+    # ax.set_ylim(bottom=0)
+    # ax.set_ylim(top=maxNum + 0.1)
+    plt.savefig(outputName, dpi=dpi)
 
 def plotDemStats(dir, xHeader, yHeaders):
     outputName = xHeader + ' by ['

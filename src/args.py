@@ -1,5 +1,6 @@
 from utils import str2bool
 from src.libs.stopConditions import *
+from src.libs.attackType import *
 
 
 argListPuppet = [
@@ -33,6 +34,16 @@ argListPuppet = [
         'possibilities': [
             ('density', DensityStopCond),
             ('connected elements', ConnectedElemStopCond)],
+    },
+    {
+        'name': 'attackType',
+        'type': str,
+        'default': None,
+        'required': True,
+        'help': '[String] The action to perform to the graph',
+        'possibilities': [
+            ('hubs', performHubAttack),
+            ('random', performRandFailure)],
     },
 ]
 

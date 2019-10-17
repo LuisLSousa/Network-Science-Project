@@ -98,7 +98,7 @@ if 'optimizer' in jconfig.keys() and 'optimize' in jconfig.keys() and jconfig['o
 else:
     # Plot results instead of running tests
 
-    if jconfig['plot']:
+    if jconfig['plot'] and 'higherDir' in jconfig['plotParams'].keys():
         plotDemStatsOnAHigherLevel(join(jconfig['outputDir'], jconfig['plotParams']['higherDir']), jconfig['plotParams']['x'],
                      jconfig['plotParams']['ys'], jconfig['plotParams']['yLabels'])
         exit()
@@ -171,4 +171,9 @@ else:
         puppet = Puppet(args=pconfig, debug=jconfig['debug'], outputDir=dir)
         puppet.pipeline()
         dumpConfiguration(pconfig, dir, unfoldConfigWith=argListPuppet)
+        if jconfig['plot']:
+            assert(len(jconfig['plotParams']['x']) == len(jconfig['plotParams']['ys']))
+            for j in range(len(jconfig['plotParams']['x'])):
+                plotDemStats(dir, jconfig['plotParams']['x'][j],
+                         jconfig['plotParams']['ys'][j])
         changeDirName(dir, extraText=jconfig['successString'])

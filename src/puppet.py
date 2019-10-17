@@ -8,6 +8,9 @@ from datetime import datetime
 
 from src.libs.visualization import *
 from src.libs.graphProcessing import *
+from src.libs.util import *
+import json
+
 
 
 class Puppet:
@@ -25,53 +28,37 @@ class Puppet:
         degreeFrequencies = np.array(nx.degree_histogram(self.G))
         degrees = [i[1] for i in self.G.degree]
 
-        if self.args['targetedAttack'] or self.args['randomFailure']:
 
-            self.performAction = self.performTargAttack if self.args['targetedAttack'] \
-                            else self.performRandFailure
+        self.performAction = self.args['attackType']
 
-            it = 0
-            logs=[]
+        it = 0
+        logs=[]
 
-            while not self.args['stopCondition'](self.G, **self.args['stopCondArgs']):
-                self.performAction()
-                it += 1
-                print('--- Outputting Iteration {} ----'.format(it))
-                if it % self.args['logFreq'] == 0 or it <= self.args['initialLog']:
-                    print('Logging...')
-                    logs.append(calculateBasicStats(self.G))
-                    # self.plots('midExecution', it)
+        while not self.args['stopCondition'](self.G, **self.args['stopCondArgs']):
+            self.performAction(self.G, self.args['numNodesToRemove'])
+            it += 1
+            print('--- Outputting Iteration {} ----'.format(it))
+            if it % self.args['logFreq'] == 0 or it <= self.args['initialLog']:
+                print('Logging...')
+                stats = calculateBasicStats(self.G)
+                stats['iteration'] = it
+                logs.append(stats)
+                # self.plots('midExecution', it)
 
-            with open(join(self.outputDir, 'logs.pkl'), 'wb') as f:
-                pkl.dump(logs, f)
+        results = {}
+        for key, val in logs[0].items():
+            results[key] = []
+            for l in logs:
+                results[key].append(l[key])
+        results = pd.DataFrame.from_dict(results)
+        results.to_csv(join(self.outputDir, 'output.csv'), sep='\t', encoding='utf-8')
 
-            self.plots('final')
+        with open(join(self.outputDir, 'logs.pkl'), 'wb') as f:
+            pkl.dump(results, f)
+
+        self.plots('final')
 
 
-    def performTargAttack(self):
-        degrees = list(self.G.degree())
-        degreeValues = [degree for node, degree in degrees]
-        degreeValues = sorted(degreeValues, reverse=True)
-        possibleNodes = [node for node, degree in degrees if degree == degreeValues[0]]
-
-        loopIt = self.args['numNodesToRemove'] if len(possibleNodes) > self.args['numNodesToRemove'] \
-            else len(possibleNodes)
-
-        print('Removing {} nodes'.format(loopIt))
-        for i in range(loopIt):
-            randIndex = choice(range(len(possibleNodes)))
-            id = possibleNodes.pop(randIndex)
-            print(id)
-            self.G.remove_node(id)
-        print('!! Performed Attack !!')
-
-    def performRandFailure(self):
-        # fixme - choice
-        seed(datetime.now())
-        for i in range(self.args['numNodesToRemove']):
-            id = choice(self.G.nodes())
-            self.G.remove_node(id)
-        print('!! Performed Failure !!')
 
     def plots(self, type, iterator=None):
         if type is 'midExecution':

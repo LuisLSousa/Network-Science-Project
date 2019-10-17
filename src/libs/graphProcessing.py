@@ -10,4 +10,5 @@ def calculateBasicStats(G):
         avgShortPathLen = nx.average_shortest_path_length(G)  # orig: 18.989185424445708
     # localClusteringCoefs  = nx.clustering(self.G)
     data = {k: v for k, v in locals().items()}
+    del data['G']
     return data
