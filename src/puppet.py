@@ -25,10 +25,11 @@ class Puppet:
     def pipeline(self):
 
         self.G = nx.read_gml(self.args['dataset'], None)
-        pos = self.args['layout'](self.G)
-        drawGraphWithHubsV2(self.G, pos, self.args['hubPercentage'],
-                            join(self.outputDir, 'Hubs - initial'), dpi=500)
-        exit()
+
+        #pos = self.args['layout'](self.G)
+        #drawGraphWithHubsV2(self.G, pos, self.args['hubPercentage'],
+        #                    join(self.outputDir, 'Hubs - initial'), dpi=500)
+        #exit()
 
         self.initialNumNodes = len(self.G.nodes())
 

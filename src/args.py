@@ -55,7 +55,8 @@ argListPuppet = [
         'help': '[String] Layout of graph plots',
         'possibilities': [
             ('spring', nx.spring_layout),
-            ('spectral', nx.spectral_layout),]
+            ('spectral', nx.spectral_layout),
+            ('shell', nx.shell_layout),]
     },
 ]
 

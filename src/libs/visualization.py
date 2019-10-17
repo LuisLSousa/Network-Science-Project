@@ -125,8 +125,8 @@ def drawGiantComponent(G, file_name, pos):
     cut = 1.00
     xmax = cut * max(xx for xx, yy in pos.values())
     ymax = cut * max(yy for xx, yy in pos.values())
-    plt.xlim(0, xmax)
-    plt.ylim(0, ymax)
+    #plt.xlim(0, xmax)
+    #plt.ylim(0, ymax)
 
     plt.savefig(file_name, bbox_inches="tight", dpi=300)
     pylab.close()
