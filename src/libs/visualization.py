@@ -7,7 +7,7 @@ import pandas as pd
 import powerlaw
 
 def drawGraphWithHubs(G, bigBoyPercentage, name):
-    # Initialze Figure
+    # Initialize Figure
     plt.figure(num=None, figsize=(20, 20), dpi=80)
     plt.axis('off')
     fig = plt.figure(1)

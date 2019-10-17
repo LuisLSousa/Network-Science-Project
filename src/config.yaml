@@ -1,9 +1,9 @@
 dataset: 'src/data/power.gml'
-attackType: hubs  # random
-stopCondition: density
+attackType: clusters  # random, hubs, clusters
+stopCondition: clusters
 stopCondArgs:
-  threshold: 50e-5
+  threshold: 0.3  # density: 53e-5, clusters: original = 0.103
 hubPercentage: 0.02
-numNodesToRemove: 2
+numNodesToRemove: 10 # per iteration
 initialLog: 10
 logFreq: 5    # From x to x iterations we calculate graph stats
