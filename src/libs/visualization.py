@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import powerlaw
 
+
 def drawGraphWithHubs(G, bigBoyPercentage, name):
     # Initialize Figure
     plt.figure(num=None, figsize=(20, 20), dpi=80)
@@ -52,7 +53,7 @@ def drawDegreeDistributionWithPowerLaw(degrees):
     # Linear bins
     powerlaw.plot_pdf(values, ax=ax, linear_bins=True, color='b')
 
-    # Logoritmic bins
+    # Logarithmic bins
     powerlaw.plot_pdf(values, ax=ax, linear_bins=False, color='r')
 
     distributions = dict()
@@ -61,6 +62,20 @@ def drawDegreeDistributionWithPowerLaw(degrees):
     fig.tight_layout()
     plt.legend(['Linearly spaced bins', 'logarithmically spaced bins'])
     plt.show()
+
+
+def multiple_line_chart(ax, xvalues, yvalues, title, xlabel, ylabel, percentage=False):
+    legend: list = []
+    ax.set_title(title)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    if percentage:
+        ax.set_ylim(0.0, 1.0)
+    for name, y in yvalues.items():
+
+        ax.plot(xvalues, y)
+        legend.append(name)
+    ax.legend(legend, loc='best', fancybox=True, shadow=True)
 
 
 def computePowerLawFitValues(degrees):
@@ -75,3 +90,61 @@ def computePowerLawFitValues(degrees):
         alpha, sigma, loglikelihoodRatio, pVal))
 
     return alpha, sigma, loglikelihoodRatio, pVal
+
+def drawGiantComponent(G, file_name):
+    try:
+        import pygraphviz
+        from networkx.drawing.nx_agraph import graphviz_layout
+        layout = graphviz_layout
+    except ImportError:
+        try:
+            import pydot
+            from networkx.drawing.nx_pydot import graphviz_layout
+            layout = graphviz_layout
+        except ImportError:
+            print("PyGraphviz and pydot not found;\n"
+                  "drawing with spring layout;\n"
+                  "will be slow.")
+            layout = nx.spring_layout
+
+    pos = layout(G)
+
+    subGraphs = list(nx.connected_component_subgraphs(G, copy=True))
+
+    giantComponent = max(subGraphs, key = len)
+    subGraphs.remove(giantComponent)
+    otherComponents = subGraphs if len(subGraphs) >= 1 else []
+
+    nx.draw_networkx_nodes(G,
+                           with_labels=False,
+                           alpha=0.3,
+                           node_size=10,
+                           pos=pos
+                           )
+
+    nx.draw_networkx_edges(giantComponent, pos,
+                           with_labels=False,
+                           edge_color='red',
+                           alpha=1,
+                           width=0.4
+                           )
+
+    for Gi in otherComponents:
+        if len(Gi) > 1:
+            nx.draw_networkx_edges(Gi, pos,
+                                   with_labels=False,
+                                   edge_color='green',
+                                   alpha=0.4,
+                                   width=0.4
+                                   )
+
+
+    cut = 1.00
+    xmax = cut * max(xx for xx, yy in pos.values())
+    ymax = cut * max(yy for xx, yy in pos.values())
+    plt.xlim(0, xmax)
+    plt.ylim(0, ymax)
+
+    plt.savefig(file_name, bbox_inches="tight", dpi=300)
+    pylab.close()
+

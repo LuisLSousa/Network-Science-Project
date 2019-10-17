@@ -31,10 +31,8 @@ def performRandFailure(G, numNodesToRemove):
 def performClusterAttack(G, numNodesToRemove):
     # if clusters are connected by a single node, remove that node
     degrees = list(G.degree())
-    degreeValues = [degree for node, degree in degrees]
-    degreeValues = sorted(degreeValues, reverse=False) # not used
-    possibleNodes = [node for node, degree in degrees if (degree == 2 and nx.clustering(G , node) == 0) ]
-    # or degree <= 3 (for example) and nx.clustering < X, with x being a number we see fit
+    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G , node) == 0) ]
+    # or nx.clustering < X, with x being a number we see fit
 
     loopIt = numNodesToRemove if len(possibleNodes) > numNodesToRemove \
         else len(possibleNodes)

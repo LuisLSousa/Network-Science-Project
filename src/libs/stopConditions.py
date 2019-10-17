@@ -13,9 +13,11 @@ def ConnectedElemStopCond(G, numElements):
     pass
 
 def ClustersStopCond(G, threshold):
-    clustersThreshold = float (threshold)
+    clustersThreshold = float(threshold)
     globalClusterCoef = nx.transitivity(G)
     print('Global Cluster Coefficient of {}, threshold [{}]'.format(globalClusterCoef, threshold))
-    if globalClusterCoef > clustersThreshold:
+    degrees = list(G.degree())
+    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G, node) == 0)]
+    if (globalClusterCoef > clustersThreshold) or not possibleNodes:
         return True
     return False

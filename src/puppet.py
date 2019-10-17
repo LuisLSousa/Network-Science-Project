@@ -43,7 +43,7 @@ class Puppet:
                 stats = calculateBasicStats(self.G)
                 stats['iteration'] = it
                 logs.append(stats)
-                self.plots('midExecution', it)
+                #self.plots('midExecution', it)
 
         results = {}
         for key, val in logs[0].items():
@@ -66,4 +66,9 @@ class Puppet:
                               join(self.outputDir, 'Hubs - {}'.format(iterator)))
 
         if type is 'final':
-            pass
+            drawGraphWithHubs(self.G, self.args['hubPercentage'],
+                              join(self.outputDir, 'Hubs - final'))
+            degrees = [i[1] for i in self.G.degree]
+            # drawDegreeDistributionWithPowerLaw(degrees) # crashes can't plot infinity :(
+            drawGiantComponent(self.G, join(self.outputDir,'giantComponent.png'))
+
