@@ -44,3 +44,4 @@ def performClusterAttack(G, numNodesToRemove):
         print(id)
         G.remove_node(id)
     print('!! Performed Cluster Attack!!')
+

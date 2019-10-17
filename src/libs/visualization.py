@@ -7,9 +7,10 @@ import pandas as pd
 import powerlaw
 
 
-def drawGraphWithHubs(G, bigBoyPercentage, name, pos):
+def drawGraphWithHubs(G, bigBoyPercentage, name, pos, dpi=180):
     # Initialize Figure
-    plt.figure(num=None, figsize=(20, 20), dpi=80)
+    # plt.figure(num=None, figsize=(20, 20), dpi=dpi)
+    plt.figure(dpi=dpi)
     plt.axis('off')
     fig = plt.figure(1)
 
@@ -130,3 +131,40 @@ def drawGiantComponent(G, file_name, pos):
     plt.savefig(file_name, bbox_inches="tight", dpi=300)
     pylab.close()
 
+def drawGraphWithHubsV2(G, pos, bigBoyPercentage, name, dpi=180):
+
+    degrees = list(G.degree())
+    degreeValues = [degree for node, degree in degrees]
+    degreeValues = sorted(degreeValues, reverse=True)
+    toKeep = len(degreeValues) * bigBoyPercentage
+    degreeValues = degreeValues[0: int(toKeep)]
+
+    degree_threshold = degreeValues[-1]
+
+    # Initialze Figure
+    plt.figure(dpi=dpi)
+    plt.axis('off')
+    fig = plt.figure(1)
+
+    hubs, notHubs = extractHubs(G, degree_threshold)
+
+    nx.draw_networkx_nodes(G, pos, nodelist=notHubs, node_color='blue', alpha=0.4, node_size=5)
+    nx.draw_networkx_nodes(G, pos, nodelist=hubs, node_color='red', node_size=10)
+    nx.draw_networkx_edges(G, pos)
+    # nx.draw_networkx_labels(graph, pos)
+
+    plt.savefig(name + '.png', bbox_inches="tight")
+
+    pylab.close()
+    del fig
+
+
+def extractHubs(G, degree_threshold=10):
+    hubs = []
+    notHubs = []
+    for i in G:
+        if G.degree(i) >= degree_threshold:
+            hubs.append(i)
+        else:
+            notHubs.append(i)
+    return hubs, notHubs
