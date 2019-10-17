@@ -28,7 +28,6 @@ class Puppet:
         degreeFrequencies = np.array(nx.degree_histogram(self.G))
         degrees = [i[1] for i in self.G.degree]
 
-
         self.performAction = self.args['attackType']
 
         it = 0
