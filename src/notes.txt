@@ -2,8 +2,6 @@ Conclusion:
 - Our degree distribution does not follow a power law, being more closely related to a normal distribution.
 - Despite this, we can still see the presence of Hubs in the network which wouldn't happen in a random network
 
-
-Todo:
 - We should better understand the generated values by fitting the data into a power law:
 alpha(10.43584815827752) sigma(1.308516706237002) loglikelihoodRatio(-0.9185063058809141)
 pVal(0.16159229772218375)

@@ -1,0 +1,5 @@
+.idea/
+output/
+src/output/*
+src/data/*
+__pycache__/

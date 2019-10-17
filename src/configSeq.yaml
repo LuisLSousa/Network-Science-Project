@@ -1,0 +1,9 @@
+configs:
+  - dataset: 'src/data/power.gml'
+    randomFailure: False
+    targetedAttack: False
+  - dataset: 'src/data/power.gml'
+    randomFailure: False
+    targetedAttack: False
+
+
