@@ -11,7 +11,7 @@ optimizer:
   numTrials: 2
   numJobs: 1
 plotParams:
-  x: [iteration, iteration]
+  x: ['removedPercentage', 'removedPercentage']
   ys: [['globalClusteringCoef'], ['density']]
   # higherDir: 'lab 3\knn without threshold notBalanced'        # [ONLY FOR HIGHER PLOTS] In addition to output
   yLabels: ['chebyshev', 'euclidean', 'manhattan']    # fixme - careful with the order of directories

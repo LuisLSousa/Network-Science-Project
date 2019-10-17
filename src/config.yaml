@@ -7,3 +7,4 @@ hubPercentage: 0.02
 numNodesToRemove: 10 # per iteration
 initialLog: 10
 logFreq: 5    # From x to x iterations we calculate graph stats
+layout: 'spectral'    # 'spring'
