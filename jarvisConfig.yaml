@@ -1,4 +1,4 @@
-name: Cluster attack Threshold = 0.3
+name: Cluster attack Threshold = 0.3 - Spring
 optimize: False     # Turns optimizer mode on and off
 seq: False         # Turns sequential mode on and off
 plot: True
@@ -11,7 +11,7 @@ optimizer:
   numTrials: 2
   numJobs: 1
 plotParams:
-  x: [iteration, iteration]
+  x: ['removedPercentage', 'removedPercentage']
   ys: [['globalClusteringCoef'], ['density']]
   # higherDir: 'lab 3\knn without threshold notBalanced'        # [ONLY FOR HIGHER PLOTS] In addition to output
   yLabels: ['chebyshev', 'euclidean', 'manhattan']    # fixme - careful with the order of directories

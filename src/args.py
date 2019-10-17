@@ -1,7 +1,7 @@
 from utils import str2bool
 from src.libs.stopConditions import *
 from src.libs.attackType import *
-
+import networkx as nx
 
 argListPuppet = [
     {
@@ -46,6 +46,16 @@ argListPuppet = [
             ('hubs', performHubAttack),
             ('random', performRandFailure),
             ('clusters',performClusterAttack)],
+    },
+    {
+        'name': 'layout',
+        'type': str,
+        'default': None,
+        'required': True,
+        'help': '[String] Layout of graph plots',
+        'possibilities': [
+            ('spring', nx.spring_layout),
+            ('spectral', nx.spectral_layout),]
     },
 ]
 

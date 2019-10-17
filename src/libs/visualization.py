@@ -7,13 +7,11 @@ import pandas as pd
 import powerlaw
 
 
-def drawGraphWithHubs(G, bigBoyPercentage, name):
+def drawGraphWithHubs(G, bigBoyPercentage, name, pos):
     # Initialize Figure
     plt.figure(num=None, figsize=(20, 20), dpi=80)
     plt.axis('off')
     fig = plt.figure(1)
-
-    pos = nx.spring_layout(G)
 
     # Calculations
     degrees = list(G.degree())
@@ -91,23 +89,7 @@ def computePowerLawFitValues(degrees):
 
     return alpha, sigma, loglikelihoodRatio, pVal
 
-def drawGiantComponent(G, file_name):
-    try:
-        import pygraphviz
-        from networkx.drawing.nx_agraph import graphviz_layout
-        layout = graphviz_layout
-    except ImportError:
-        try:
-            import pydot
-            from networkx.drawing.nx_pydot import graphviz_layout
-            layout = graphviz_layout
-        except ImportError:
-            print("PyGraphviz and pydot not found;\n"
-                  "drawing with spring layout;\n"
-                  "will be slow.")
-            layout = nx.spring_layout
-
-    pos = layout(G)
+def drawGiantComponent(G, file_name, pos):
 
     subGraphs = list(nx.connected_component_subgraphs(G, copy=True))
 

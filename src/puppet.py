@@ -8,7 +8,6 @@ from datetime import datetime
 
 from src.libs.visualization import *
 from src.libs.graphProcessing import *
-from src.libs.util import *
 import json
 
 
@@ -24,10 +23,13 @@ class Puppet:
 
 
     def pipeline(self):
+
         self.G = nx.read_gml(self.args['dataset'], None)
+
+        self.initialNumNodes = len(self.G.nodes())
+
         degreeFrequencies = np.array(nx.degree_histogram(self.G))
         degrees = [i[1] for i in self.G.degree]
-
 
         self.performAction = self.args['attackType']
 
@@ -42,8 +44,9 @@ class Puppet:
                 print('Logging...')
                 stats = calculateBasicStats(self.G)
                 stats['iteration'] = it
+                stats['removedPercentage'] = calcRemovedPercentage(self.G, self.initialNumNodes)
                 logs.append(stats)
-                #self.plots('midExecution', it)
+                # self.plots('midExecution', it)
 
         results = {}
         for key, val in logs[0].items():
@@ -61,14 +64,15 @@ class Puppet:
 
 
     def plots(self, type, iterator=None):
+        pos = self.args['layout'](self.G)
         if type is 'midExecution':
             drawGraphWithHubs(self.G,  self.args['hubPercentage'],
                               join(self.outputDir, 'Hubs - {}'.format(iterator)))
 
         if type is 'final':
             drawGraphWithHubs(self.G, self.args['hubPercentage'],
-                              join(self.outputDir, 'Hubs - final'))
+                              join(self.outputDir, 'Hubs - final'), pos)
             degrees = [i[1] for i in self.G.degree]
             # drawDegreeDistributionWithPowerLaw(degrees) # crashes can't plot infinity :(
-            drawGiantComponent(self.G, join(self.outputDir,'giantComponent.png'))
+            drawGiantComponent(self.G, join(self.outputDir,'giantComponent.png'), pos)
 

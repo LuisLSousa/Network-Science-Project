@@ -5,5 +5,6 @@ stopCondArgs:
   threshold: 0.3  # density: 53e-5, clusters: original = 0.103
 hubPercentage: 0.02
 numNodesToRemove: 15 # per iteration
-initialLog: 10
+initialLog: 0
 logFreq: 5    # From x to x iterations we calculate graph stats
+layout: 'spring'    # 'spring', 'spectral'
