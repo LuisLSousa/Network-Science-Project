@@ -42,7 +42,7 @@ class Puppet:
                 stats = calculateBasicStats(self.G)
                 stats['iteration'] = it
                 logs.append(stats)
-                # self.plots('midExecution', it)
+                self.plots('midExecution', it)
 
         results = {}
         for key, val in logs[0].items():

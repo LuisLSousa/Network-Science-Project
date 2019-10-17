@@ -231,6 +231,7 @@ def multipleYsLinePlot(data, y_types, x_type, outputName='', ymin=True, ymax=Tru
         ax.plot(x, data[t], label=t)
         maxNum = max(data[t]) if max(data[t]) > maxNum else maxNum
 
+    plt.xlabel(x_type)
     ax.legend()
     # ax.set_ylim(bottom=0)
     # ax.set_ylim(top=maxNum + 0.1)
@@ -277,7 +278,7 @@ def plotDemStatsOnAHigherLevel(dir, xHeader, yHeaders, yLabels, dpi=180):
             ax.plot(x, data[y], label=yLabels[i] + ' - {}'.format(y), color=colors[pallets[i][j]],
                     alpha=0.6)
 
-
+    plt.xlabel(xHeader)
     ax.legend()
     ax.set_ylim(bottom=0)
     ax.set_ylim(top=maxNum + 0.1)

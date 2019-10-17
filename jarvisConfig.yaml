@@ -1,4 +1,4 @@
-name: test run
+name: Cluster attack Threshold = 0.3
 optimize: False     # Turns optimizer mode on and off
 seq: False         # Turns sequential mode on and off
 plot: True
