@@ -1,8 +1,7 @@
-name: Cluster attack Threshold = 0.3 - Spring
+name: all
 optimize: False     # Turns optimizer mode on and off
 seq: False         # Turns sequential mode on and off
 plot: True
-
 conf: src/config.yaml
 confSeq: src/configSeq.yaml
 outputDir: src/output
@@ -11,8 +10,9 @@ optimizer:
   numTrials: 2
   numJobs: 1
 plotParams:
-  x: ['removedPercentage', 'removedPercentage']
-  ys: [['globalClusteringCoef'], ['density']]
-  # higherDir: 'lab 3\knn without threshold notBalanced'        # [ONLY FOR HIGHER PLOTS] In addition to output
-  yLabels: ['chebyshev', 'euclidean', 'manhattan']    # fixme - careful with the order of directories
+  x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
+      'removedPercentage']
+  ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree']]
+  higherDir: 'sequential - Hubs & Cluster (all graphs) - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
+  yLabels: ['clusters', 'hubs', 'random']            # fixme - careful with the order of directories
 successString: ' - finished'

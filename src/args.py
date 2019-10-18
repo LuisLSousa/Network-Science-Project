@@ -33,8 +33,8 @@ argListPuppet = [
         'help': '[String] When to stop performing actions to the graph',
         'possibilities': [
             ('density', DensityStopCond),
-            ('connected elements', ConnectedElemStopCond),
-            ('clusters', ClustersStopCond)],
+            ('clusters', ClustersStopCond),
+            ('lostPercentage', graphPercentageLostStopCond)],
     },
     {
         'name': 'attackType',

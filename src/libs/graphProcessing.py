@@ -12,6 +12,13 @@ def calculateBasicStats(G):
     degrees = [i[1] for i in G.degree]
     alpha, sigma, loglikelihoodRatio, pVal = computePowerLawFitValues(degrees)
 
+    giantComponentSize = calcGiantComponentSize(G)
+    numComponents = nx.number_connected_components(G)
+
+    d = [j for i, j in  list(G.degree())]
+    avgDegree = sum(d)/len(d)
+
+    # todo - Diameter??
     data = {k: v for k, v in locals().items()}
     del data['G']
     return data
@@ -32,3 +39,22 @@ def computePowerLawFitValues(degrees):
 
 def calcRemovedPercentage(G, initialNumNodes):
     return (1 - len(G.nodes())/initialNumNodes)
+
+
+def computePowerLawFitValues(degrees):
+    series = pd.Series(degrees)
+
+    # Linear vs Logarithmic Bins
+    results = powerlaw.Fit(degrees)
+    alpha = results.power_law.alpha
+    sigma = results.power_law.sigma
+    loglikelihoodRatio, pVal = results.distribution_compare('power_law', 'lognormal')
+    print('Best values for power law fit: alpha({}) sigma({}) loglikelihoodRatio({}) pVal({})'.format(
+        alpha, sigma, loglikelihoodRatio, pVal))
+
+    return alpha, sigma, loglikelihoodRatio, pVal
+
+def calcGiantComponentSize(G):
+    subGraphs = list(nx.connected_component_subgraphs(G, copy=True))
+    giantComponent = max(subGraphs, key=len)
+    return len(giantComponent.nodes())

@@ -26,11 +26,6 @@ class Puppet:
 
         self.G = nx.read_gml(self.args['dataset'], None)
 
-        #pos = self.args['layout'](self.G)
-        #drawGraphWithHubsV2(self.G, pos, self.args['hubPercentage'],
-        #                    join(self.outputDir, 'Hubs - initial'), dpi=500)
-        #exit()
-
         self.initialNumNodes = len(self.G.nodes())
 
         degreeFrequencies = np.array(nx.degree_histogram(self.G))
@@ -38,10 +33,11 @@ class Puppet:
 
         self.performAction = self.args['attackType']
 
+        stopCondArgs = self.args['stopCondArgs']
+        stopCondArgs['removedPercentage'] = 0
         it = 0
-        logs=[]
-
-        while not self.args['stopCondition'](self.G, **self.args['stopCondArgs']):
+        logs = []
+        while not self.args['stopCondition'](self.G, **stopCondArgs):
             self.performAction(self.G, self.args['numNodesToRemove'])
             it += 1
             print('--- Outputting Iteration {} ----'.format(it))
@@ -52,6 +48,7 @@ class Puppet:
                 stats['removedPercentage'] = calcRemovedPercentage(self.G, self.initialNumNodes)
                 logs.append(stats)
                 # self.plots('midExecution', it)
+            stopCondArgs['removedPercentage'] = calcRemovedPercentage(self.G, self.initialNumNodes)
 
         results = {}
         for key, val in logs[0].items():
@@ -71,17 +68,20 @@ class Puppet:
     def plots(self, type, iterator=None):
         pos = self.args['layout'](self.G)
         if type is 'midExecution':
-            drawGraphWithHubs(self.G,  self.args['hubPercentage'],
-                              join(self.outputDir, 'Hubs - {}'.format(iterator)))
+            drawGraphWithHubsV2(self.G, pos, self.args['hubPercentage'],
+                              join(self.outputDir, 'Hubs - {}'.format(iterator)), dpi=self.args['dpi'])
+            drawGiantComponent(self.G, join(self.outputDir, 'giantComponent - {}.png'.format(iterator)), pos, dpi=self.args['dpi'])
+
 
         if type is 'final':
             '''drawGraphWithHubs(self.G, self.args['hubPercentage'],
                               join(self.outputDir, 'Hubs - final'), pos)
             '''
             drawGraphWithHubsV2(self.G, pos,  self.args['hubPercentage'],
-                                join(self.outputDir, 'Hubs - {}'.format(iterator)))
+                                join(self.outputDir, 'Hubs - final'), dpi=self.args['dpi'])
 
             degrees = [i[1] for i in self.G.degree]
+            drawGiantComponent(self.G, join(self.outputDir, 'giantComponent - final.png'), pos, dpi=self.args['dpi'])
+
             # drawDegreeDistributionWithPowerLaw(degrees) # crashes can't plot infinity :(
-            drawGiantComponent(self.G, join(self.outputDir,'giantComponent.png'), pos)
 

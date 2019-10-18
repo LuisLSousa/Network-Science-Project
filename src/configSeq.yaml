@@ -1,9 +1,34 @@
 configs:
   - dataset: 'src/data/power.gml'
-    randomFailure: False
-    targetedAttack: False
+    attackType: hubs  # random, hubs, clusters
+    stopCondition: lostPercentage # density, clusters, lostPercentage
+    stopCondArgs:
+      threshold: 0.5  # density: 53e-5, clusters: original = 0.103, lostPercentage:
+    hubPercentage: 0.02
+    numNodesToRemove: 15 # per iteration
+    dpi: 500
+    initialLog: 1
+    logFreq: 10          # From x to x iterations we calculate graph stats
+    layout: 'spring'     # 'spring', 'spectral', 'shell'
   - dataset: 'src/data/power.gml'
-    randomFailure: False
-    targetedAttack: False
-
-
+    attackType: clusters  # random, hubs, clusters
+    stopCondition: clusters # density, clusters, lostPercentage
+    stopCondArgs:
+      threshold: 0.3  # density: 53e-5, clusters: original = 0.103, lostPercentage:
+    hubPercentage: 0.02
+    numNodesToRemove: 15 # per iteration
+    dpi: 500
+    initialLog: 1
+    logFreq: 10    # From x to x iterations we calculate graph stats
+    layout: 'spring'    # 'spring', 'spectral', 'shell'
+  - dataset: 'src/data/power.gml'
+    attackType: random  # random, hubs, clusters
+    stopCondition: lostPercentage # density, clusters, lostPercentage
+    stopCondArgs:
+      threshold: 0.5  # density: 53e-5, clusters: original = 0.103, lostPercentage:
+    hubPercentage: 0.02
+    numNodesToRemove: 15 # per iteration
+    dpi: 500
+    initialLog: 1
+    logFreq: 5    # From x to x iterations we calculate graph stats
+    layout: 'spring'    # 'spring', 'spectral', 'shell'

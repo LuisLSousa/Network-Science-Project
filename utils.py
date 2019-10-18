@@ -174,14 +174,14 @@ def removeNestedDict(d):
     return d
 
 
-def unifyOutputs(dir):
+def unifyOutputs(dir, logFile='logs.json', configFile='config.yaml'):
     datasetCols = {}
     print(dir)
     for subdir, dirs, files in walk(dir):
         for subdir in dirs:
             # todo - Check name to avoid sequentials and optimizations
-            subpathToOutput = join(dir, subdir, 'logs.json')
-            subpathToConf = join(dir, subdir, 'config.yaml')
+            subpathToOutput = join(dir, subdir, logFile)
+            subpathToConf = join(dir, subdir, configFile)
 
             with open(subpathToOutput) as f:
                 outputs = json.load(f)
@@ -248,11 +248,11 @@ def plotDemStats(dir, xHeader, yHeaders):
     data = pd.read_csv(csvLocation, sep='\t', index_col=False, encoding='utf-8')
     multipleYsLinePlot(data, yHeaders, xHeader, outputName=outputName)
 
-def plotDemStatsOnAHigherLevel(dir, xHeader, yHeaders, yLabels, dpi=180):
+def plotDemStatsOnAHigherLevel(dir, xHeader, yHeaders, yLabels, outputFileName='output.csv', dpi=180):
     colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
-    reds = ['lightcoral', 'indianred', 'darkred', 'r']
-    blues = ['deepskyblue', 'darkcyan', 'lightskyblue', 'steelblue']
-    greens = ['g', 'limegreen', 'forestgreen', 'mediumseagrean']
+    reds = ['lightcoral', 'indianred', 'darkred', 'r', 'lightsalmon']
+    blues = ['deepskyblue', 'darkcyan', 'lightskyblue', 'steelblue', 'azure']
+    greens = ['g', 'limegreen', 'forestgreen', 'mediumseagrean', 'palegreen']
     pallets = [reds, blues, greens]
 
     outputName = xHeader + ' by ['
@@ -265,7 +265,7 @@ def plotDemStatsOnAHigherLevel(dir, xHeader, yHeaders, yLabels, dpi=180):
     maxNum = 0
     for subdir, dirs, files in walk(dir):
         for f in dirs:
-            outFile = join(subdir, f, 'output.csv')
+            outFile = join(subdir, f, outputFileName)
             data = pd.read_csv(outFile, sep='\t', index_col=False, encoding='utf-8')
             results.append(data)
         break  # Only apply recursivness once
@@ -274,14 +274,13 @@ def plotDemStatsOnAHigherLevel(dir, xHeader, yHeaders, yLabels, dpi=180):
         for j, y in enumerate(yHeaders):
             data = res.sort_values(by=[xHeader])
             x = data[xHeader]
-            maxNum = max(data[y]) if max(data[y]) > maxNum else maxNum
+            m = max(data[y].values)
+            maxNum =  m if m > maxNum else maxNum
             ax.plot(x, data[y], label=yLabels[i] + ' - {}'.format(y), color=colors[pallets[i][j]],
                     alpha=0.6)
 
     plt.xlabel(xHeader)
     ax.legend()
-    ax.set_ylim(bottom=0)
-    ax.set_ylim(top=maxNum + 0.1)
     plt.savefig(outputName, dpi=dpi)
 
 '''

@@ -5,37 +5,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import pandas as pd
 import powerlaw
-
-
-def drawGraphWithHubs(G, bigBoyPercentage, name, pos, dpi=180):
-    # Initialize Figure
-    # plt.figure(num=None, figsize=(20, 20), dpi=dpi)
-    plt.figure(dpi=dpi)
-    plt.axis('off')
-    fig = plt.figure(1)
-
-    # Calculations
-    degrees = list(G.degree())
-    degreeValues = [degree for node, degree in degrees]
-    degreeValues = sorted(degreeValues, reverse=True)
-    toKeep = len(degreeValues)*bigBoyPercentage
-    degreeValues = degreeValues[0: int(toKeep)]
-    nodeColors = ['r' if i[1] in degreeValues else 'b' for i in G.degree]
-
-    nx.draw_networkx_nodes(G, pos, node_color=nodeColors)
-    nx.draw_networkx_edges(G, pos)
-    # nx.draw_networkx_labels(graph, pos)
-
-    cut = 1.00
-    xmax = cut * max(xx for xx, yy in pos.values())
-    ymax = cut * max(yy for xx, yy in pos.values())
-    plt.xlim(0, xmax)
-    plt.ylim(0, ymax)
-
-    plt.savefig(name + '.png', bbox_inches="tight")
-    pylab.close()
-    del fig
-
+from src.libs.visualization import *
 
 def drawDegreeDistributionWithPowerLaw(degrees):
     fig = plt.figure()
@@ -50,7 +20,7 @@ def drawDegreeDistributionWithPowerLaw(degrees):
     n, bins, patches = ax.hist(values, bins, density=True, edgecolor='grey')
 
     # Linear bins
-    powerlaw.plot_pdf(values, ax=ax, linear_bins=True, color='b')
+    # powerlaw.plot_pdf(values, ax=ax, linear_bins=True, color='b')
 
     # Logarithmic bins
     powerlaw.plot_pdf(values, ax=ax, linear_bins=False, color='r')
@@ -77,24 +47,11 @@ def multiple_line_chart(ax, xvalues, yvalues, title, xlabel, ylabel, percentage=
     ax.legend(legend, loc='best', fancybox=True, shadow=True)
 
 
-def computePowerLawFitValues(degrees):
-    series = pd.Series(degrees)
-
-    # Linear vs Logarithmic Bins
-    results = powerlaw.Fit(degrees)
-    alpha = results.power_law.alpha
-    sigma = results.power_law.sigma
-    loglikelihoodRatio, pVal = results.distribution_compare('power_law', 'lognormal')
-    print('Best values for power law fit: alpha({}) sigma({}) loglikelihoodRatio({}) pVal({})'.format(
-        alpha, sigma, loglikelihoodRatio, pVal))
-
-    return alpha, sigma, loglikelihoodRatio, pVal
-
-def drawGiantComponent(G, file_name, pos):
+def drawGiantComponent(G, file_name, pos, dpi=180):
 
     subGraphs = list(nx.connected_component_subgraphs(G, copy=True))
 
-    giantComponent = max(subGraphs, key = len)
+    giantComponent = max(subGraphs, key=len)
     subGraphs.remove(giantComponent)
     otherComponents = subGraphs if len(subGraphs) >= 1 else []
 
@@ -122,14 +79,33 @@ def drawGiantComponent(G, file_name, pos):
                                    )
 
 
-    cut = 1.00
-    xmax = cut * max(xx for xx, yy in pos.values())
-    ymax = cut * max(yy for xx, yy in pos.values())
-    #plt.xlim(0, xmax)
-    #plt.ylim(0, ymax)
-
-    plt.savefig(file_name, bbox_inches="tight", dpi=300)
+    plt.savefig(file_name, bbox_inches="tight", dpi=dpi)
     pylab.close()
+
+
+def drawGraphWithHubs(G, bigBoyPercentage, name, pos, dpi=180):
+    # Initialize Figure
+    # plt.figure(num=None, figsize=(20, 20), dpi=dpi)
+    plt.figure(dpi=dpi)
+    plt.axis('off')
+    fig = plt.figure(1)
+
+    # Calculations
+    degrees = list(G.degree())
+    degreeValues = [degree for node, degree in degrees]
+    degreeValues = sorted(degreeValues, reverse=True)
+    toKeep = len(degreeValues)*bigBoyPercentage
+    degreeValues = degreeValues[0: int(toKeep)]
+    nodeColors = ['r' if i[1] in degreeValues else 'b' for i in G.degree]
+
+    nx.draw_networkx_nodes(G, pos, node_color=nodeColors)
+    nx.draw_networkx_edges(G, pos)
+    # nx.draw_networkx_labels(graph, pos)
+
+    plt.savefig(name + '.png', bbox_inches="tight")
+    pylab.close()
+    del fig
+
 
 def drawGraphWithHubsV2(G, pos, bigBoyPercentage, name, dpi=180):
 

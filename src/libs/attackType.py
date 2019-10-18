@@ -23,8 +23,11 @@ def performHubAttack(G, numNodesToRemove):
 def performRandFailure(G, numNodesToRemove):
     # fixme - choice
     seed(datetime.now())
+    possibleNodes = list(G.nodes())
     for i in range(numNodesToRemove):
-        id = choice(G.nodes())
+        randIndex = choice(range(len(possibleNodes)))
+        id = possibleNodes.pop(randIndex)
+        print(id)
         G.remove_node(id)
     print('!! Performed Random Failure !!')
 

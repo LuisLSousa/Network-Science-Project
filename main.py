@@ -99,8 +99,10 @@ else:
     # Plot results instead of running tests
 
     if jconfig['plot'] and 'higherDir' in jconfig['plotParams'].keys():
-        plotDemStatsOnAHigherLevel(join(jconfig['outputDir'], jconfig['plotParams']['higherDir']), jconfig['plotParams']['x'],
-                     jconfig['plotParams']['ys'], jconfig['plotParams']['yLabels'])
+        assert (len(jconfig['plotParams']['x']) == len(jconfig['plotParams']['ys']))
+        for j in range(len(jconfig['plotParams']['x'])):
+            plotDemStatsOnAHigherLevel(join(jconfig['outputDir'], jconfig['plotParams']['higherDir']), jconfig['plotParams']['x'][j],
+                         jconfig['plotParams']['ys'][j], jconfig['plotParams']['yLabels'])
         exit()
     if jconfig['seq']:
         # Sequential test:
@@ -138,13 +140,20 @@ else:
             puppet = Puppet(pconfig, debug=jconfig['debug'], outputDir=dir)
             puppet.pipeline()
             dumpConfiguration(pconfig, dir, unfoldConfigWith=argListPuppet)
+
+            assert (len(jconfig['plotParams']['x']) == len(jconfig['plotParams']['ys']))
+            for j in range(len(jconfig['plotParams']['x'])):
+                plotDemStats(dir, jconfig['plotParams']['x'][j],
+                             jconfig['plotParams']['ys'][j])
             changeDirName(dir, extraText=jconfig['successString'])
 
         # test me
         if jconfig['plot']:
+            '''
             unifyOutputs(seqTestDir)
             plotDemStats(seqTestDir, jconfig['plotParams']['x'],
                          jconfig['plotParams']['ys'])
+             '''
         changeDirName(seqTestDir, extraText=jconfig['successString'])
 
     else:
