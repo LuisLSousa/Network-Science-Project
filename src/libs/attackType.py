@@ -31,11 +31,12 @@ def performRandFailure(G, numNodesToRemove):
         G.remove_node(id)
     print('!! Performed Random Failure !!')
 
-def performClusterAttack(G, numNodesToRemove):
+def performBridgeAttack(G, numNodesToRemove):
     # if clusters are connected by a single node, remove that node
     degrees = list(G.degree())
-    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G , node) == 0) ]
+    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G , node) < nx.transitivity(G)) ]
     # or nx.clustering < X, with x being a number we see fit
+    # nx.clustering(G , node) < nx.transitivity(G)) -> we remove all nodes with a cf < global cf
 
     loopIt = numNodesToRemove if len(possibleNodes) > numNodesToRemove \
         else len(possibleNodes)
@@ -46,7 +47,7 @@ def performClusterAttack(G, numNodesToRemove):
         id = possibleNodes.pop(randIndex)
         print(id)
         G.remove_node(id)
-    print('!! Performed Cluster Attack!!')
+    print('!! Performed Bridge Attack!!')
 
 def performBetweennessAttack(G, numNodesToRemove):
 

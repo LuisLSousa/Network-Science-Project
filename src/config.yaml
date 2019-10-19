@@ -1,10 +1,10 @@
 dataset: 'src/data/power.gml'
-attackType: betweenness  # random, hubs, clusters, betweenness
-stopCondition: lostPercentage # density, clusters, lostPercentage
+attackType: bridge  # random, hubs, bridge, betweenness
+stopCondition: lostPercentage # density, bridge, lostPercentage
 stopCondArgs:
-  threshold: 0.3  # density: 53e-5, clusters: original = 0.103, lostPercentage:
+  threshold: 0.5  # density: 53e-5, lostPercentage: 0.5-0.3 depending on attack
 hubPercentage: 0.02
-numNodesToRemove: 100 # per iteration
+numNodesToRemove: 15 # per iteration
 dpi: 500
 initialLog: 1
 logFreq: 5    # From x to x iterations we calculate graph stats
