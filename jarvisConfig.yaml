@@ -20,9 +20,9 @@ plotSeqParams:
   x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
              'removedPercentage', 'removedPercentage']
   ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree'],
-       ['diameter']]
+       ['giantComponentDiameter']]
   yAxes: ['Global Clustering Coef', 'Density', 'Alpha', 'Giant Component Size', 'Num of Components',
-                 'Avg Degree', 'Diameter']
+                 'Avg Degree', 'Diameter of Giant Component']
   yLabels: ['Betweenness attack', 'Bridge attack', 'Hubs attack', 'Random Failure']            # fixme - careful with the order of directories
   dir: 'sequential - attacks - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
 
