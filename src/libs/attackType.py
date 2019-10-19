@@ -18,6 +18,7 @@ def performHubAttack(G, numNodesToRemove):
         print(id)
         G.remove_node(id)
     print('!! Performed Hubs Attack !!')
+    return loopIt
 
 
 def performRandFailure(G, numNodesToRemove):
@@ -30,6 +31,8 @@ def performRandFailure(G, numNodesToRemove):
         print(id)
         G.remove_node(id)
     print('!! Performed Random Failure !!')
+    return numNodesToRemove
+
 
 def performClustersAttack(G, numNodesToRemove):
     # if clusters are connected by a single node, remove that node
@@ -48,6 +51,8 @@ def performClustersAttack(G, numNodesToRemove):
         id = possibleNodes.pop(randIndex)
         print(id)
         G.remove_node(id)
+    return loopIt
+
     print('!! Performed Bridge Attack!!')
 
 
@@ -68,6 +73,7 @@ def performBridgeAttack(G, numNodesToRemove):
         id = possibleNodes.pop(randIndex)
         print(id)
         G.remove_node(id)
+    return loopIt
     print('!! Performed Bridge Attack!!')
 
 def performBetweennessAttack(G, numNodesToRemove):
@@ -89,9 +95,10 @@ def performBetweennessAttack(G, numNodesToRemove):
             print(id)
             G.remove_node(id)
         print('!! Performed Betweenness Attack !!')
+        return numNodesToRemove
     else:
         print('Caanot remove more node...')
-        exit()
+        return 0
 
 
 

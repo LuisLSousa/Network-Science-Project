@@ -37,8 +37,9 @@ class Puppet:
         stopCondArgs['removedPercentage'] = 0
         it = 0
         logs = []
-        while not self.args['stopCondition'](self.G, **stopCondArgs):
-            self.performAction(self.G, self.args['numNodesToRemove'])
+        removedNodes=1      # Just a number different from zero
+        while not self.args['stopCondition'](self.G, removedNodes=removedNodes, **stopCondArgs):
+            removedNodes = self.performAction(self.G, self.args['numNodesToRemove'])
             it += 1
             print('--- Outputting Iteration {} ----'.format(it))
             if it % self.args['logFreq'] == 0 or it <= self.args['initialLog']:
