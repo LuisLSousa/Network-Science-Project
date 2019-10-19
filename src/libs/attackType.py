@@ -81,9 +81,8 @@ def performBetweennessAttack(G, numNodesToRemove):
     betw = nx.betweenness_centrality(G)
     betw = [(i, j) for i, j in betw.items()]
 
-    betwValues = [i[1] for i in betw]
-    # betwValues = sorted(betwValues, reverse=True)
-    possibleNodes = [node for node, btw in betw]
+    betwValues = sorted(betw, reverse=True, key=lambda x: x[1])
+    possibleNodes = [node for node, value in betwValues]
     '''
     loopIt = numNodesToRemove if len(possibleNodes) > numNodesToRemove \
         else len(possibleNodes)
@@ -99,8 +98,3 @@ def performBetweennessAttack(G, numNodesToRemove):
     else:
         print('Caanot remove more node...')
         return 0
-
-
-
-
-

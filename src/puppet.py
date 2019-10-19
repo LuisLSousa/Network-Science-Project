@@ -78,11 +78,12 @@ class Puppet:
             '''drawGraphWithHubs(self.G, self.args['hubPercentage'],
                               join(self.outputDir, 'Hubs - final'), pos)
             '''
-            drawGraphWithHubsV2(self.G, pos,  self.args['hubPercentage'],
-                                join(self.outputDir, 'Hubs - final'), dpi=self.args['dpi'])
+            pass
+            # drawGraphWithHubsV2(self.G, pos,  self.args['hubPercentage'],
+            #                     join(self.outputDir, 'Hubs - final'), dpi=self.args['dpi'])
 
-            degrees = [i[1] for i in self.G.degree]
-            drawGiantComponent(self.G, join(self.outputDir, 'giantComponent - final.png'), pos, dpi=self.args['dpi'])
+            # degrees = [i[1] for i in self.G.degree]
+            # drawGiantComponent(self.G, join(self.outputDir, 'giantComponent - final.png'), pos, dpi=self.args['dpi'])
 
             # drawDegreeDistributionWithPowerLaw(degrees) # crashes can't plot infinity :(
 
