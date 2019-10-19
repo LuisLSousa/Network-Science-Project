@@ -48,3 +48,27 @@ def performClusterAttack(G, numNodesToRemove):
         G.remove_node(id)
     print('!! Performed Cluster Attack!!')
 
+def performBetweennessAttack(G, numNodesToRemove):
+
+    betw = nx.betweenness_centrality(G)
+    betw = [(i, j) for i,j in betw.items()]
+
+    betwValues = [i[1] for i in betw]
+    betwValues = sorted(betwValues)
+    possibleNodes = [node for node, btw in betw if btw == betwValues[0]]
+
+    loopIt = numNodesToRemove if len(possibleNodes) > numNodesToRemove \
+        else len(possibleNodes)
+
+    print('Removing {} nodes'.format(loopIt))
+    for i in range(loopIt):
+        randIndex = choice(range(len(possibleNodes)))
+        id = possibleNodes.pop(randIndex)
+        print(id)
+        G.remove_node(id)
+    print('!! Performed Betweenness Attack !!')
+
+
+
+
+

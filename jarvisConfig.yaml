@@ -24,3 +24,4 @@ plotSeqParams:
                  'Avg Degree']
   yLabels: ['clusters', 'hubs', 'random']            # fixme - careful with the order of directories
   dir: 'sequential - attacks - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
+
