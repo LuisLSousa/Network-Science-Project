@@ -52,22 +52,25 @@ def performBridgeAttack(G, numNodesToRemove):
 def performBetweennessAttack(G, numNodesToRemove):
 
     betw = nx.betweenness_centrality(G)
-    betw = [(i, j) for i,j in betw.items()]
+    betw = [(i, j) for i, j in betw.items()]
 
     betwValues = [i[1] for i in betw]
-    betwValues = sorted(betwValues)
-    possibleNodes = [node for node, btw in betw if btw == betwValues[0]]
-
+    # betwValues = sorted(betwValues, reverse=True)
+    possibleNodes = [node for node, btw in betw]
+    '''
     loopIt = numNodesToRemove if len(possibleNodes) > numNodesToRemove \
         else len(possibleNodes)
-
-    print('Removing {} nodes'.format(loopIt))
-    for i in range(loopIt):
-        randIndex = choice(range(len(possibleNodes)))
-        id = possibleNodes.pop(randIndex)
-        print(id)
-        G.remove_node(id)
-    print('!! Performed Betweenness Attack !!')
+    '''
+    if numNodesToRemove > len(possibleNodes):
+        print('Removing {} nodes'.format(numNodesToRemove))
+        for i in range(numNodesToRemove):
+            id = possibleNodes[i]
+            print(id)
+            G.remove_node(id)
+        print('!! Performed Betweenness Attack !!')
+    else:
+        print('Caanot remove more node...')
+        exit()
 
 
 
