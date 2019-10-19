@@ -2,9 +2,9 @@ dataset: 'src/data/power.gml'
 attackType: bridge  # random, hubs, bridge, betweenness
 stopCondition: lostPercentage # density, bridge, lostPercentage
 stopCondArgs:
-  threshold: 0.5  # density: 53e-5, lostPercentage: 0.5-0.3 depending on attack
+  threshold: 0.31  # density: 53e-5, lostPercentage: 0.5-0.3 depending on attack
 hubPercentage: 0.02
-numNodesToRemove: 15 # per iteration
+numNodesToRemove: 100 # per iteration
 dpi: 500
 initialLog: 1
 logFreq: 5    # From x to x iterations we calculate graph stats
