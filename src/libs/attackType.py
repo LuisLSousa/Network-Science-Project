@@ -31,11 +31,12 @@ def performRandFailure(G, numNodesToRemove):
         G.remove_node(id)
     print('!! Performed Random Failure !!')
 
-def performClusterAttack(G, numNodesToRemove):
+def performClustersAttack(G, numNodesToRemove):
     # if clusters are connected by a single node, remove that node
     degrees = list(G.degree())
-    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G , node) == 0) ]
-    # or nx.clustering < X, with x being a number we see fit
+    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G , node)==0) ]
+    # or nx.clustering < X, with x being a number we see fit. Original global cf = 0.10315322452860086
+    # nx.clustering(G , node) < nx.transitivity(G)) -> we remove all nodes with a cf < global cf - takes a lot to compute
 
     loopIt = numNodesToRemove if len(possibleNodes) > numNodesToRemove \
         else len(possibleNodes)
@@ -43,10 +44,31 @@ def performClusterAttack(G, numNodesToRemove):
     print('Removing {} nodes'.format(loopIt))
     for i in range(loopIt):
         randIndex = choice(range(len(possibleNodes)))
+
         id = possibleNodes.pop(randIndex)
         print(id)
         G.remove_node(id)
-    print('!! Performed Cluster Attack!!')
+    print('!! Performed Bridge Attack!!')
+
+
+def performBridgeAttack(G, numNodesToRemove):
+    # if clusters are connected by a single node, remove that node
+    degrees = list(G.degree())
+    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G , node) < 0.10315322452860086) ]
+    # or nx.clustering < X, with x being a number we see fit. Original global cf = 0.10315322452860086
+    # nx.clustering(G , node) < nx.transitivity(G)) -> we remove all nodes with a cf < global cf - takes a lot to compute
+
+    loopIt = numNodesToRemove if len(possibleNodes) > numNodesToRemove \
+        else len(possibleNodes)
+
+    print('Removing {} nodes'.format(loopIt))
+    for i in range(loopIt):
+        randIndex = choice(range(len(possibleNodes)))
+
+        id = possibleNodes.pop(randIndex)
+        print(id)
+        G.remove_node(id)
+    print('!! Performed Bridge Attack!!')
 
 def performBetweennessAttack(G, numNodesToRemove):
 

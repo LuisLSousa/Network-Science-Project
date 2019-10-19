@@ -10,7 +10,7 @@ def DensityStopCond(G, threshold, removedPercentage=None):
     return False
 
 
-def ClustersStopCond(G, threshold, removedPercentage=None):
+def BridgeStopCond_not_in_use(G, threshold, removedPercentage=None):
     clustersThreshold = float(threshold)
     globalClusterCoef = nx.transitivity(G)
     print('Global Cluster Coefficient of {}, threshold [{}]'.format(globalClusterCoef, threshold))
@@ -25,3 +25,15 @@ def graphPercentageLostStopCond(G, threshold, removedPercentage):
     if removedPercentage > threshold:
         return True
     return False
+
+def BridgeStopCond(G, threshold, removedPercentage):
+    degrees = list(G.degree())
+
+    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G , node) < 0.10315322452860086) ]
+
+    print('Removed Percentage of {}, threshold [{}]'.format(removedPercentage, threshold))
+    if removedPercentage > threshold or len(possibleNodes) == 0:
+        return True
+    return False
+
+
