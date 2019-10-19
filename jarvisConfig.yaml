@@ -1,4 +1,4 @@
-name: all
+name: Betweenness Attack - Spring
 optimize: False     # Turns optimizer mode on and off
 seq: False         # Turns sequential mode on and off
 plot: True
@@ -13,6 +13,6 @@ plotParams:
   x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
       'removedPercentage']
   ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree']]
-  higherDir: 'sequential - Hubs & Cluster (all graphs) - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
-  yLabels: ['clusters', 'hubs', 'random']            # fixme - careful with the order of directories
+  # higherDir: 'sequential - Hubs & Cluster (all graphs) - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
+  # yLabels: ['clusters', 'hubs', 'random']            # fixme - careful with the order of directories
 successString: ' - finished'
