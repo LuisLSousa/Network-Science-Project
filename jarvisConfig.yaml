@@ -3,7 +3,7 @@ optimize: False     # Turns optimizer mode on and off
 seq: False         # Turns sequential mode on and off
 plotSingle: True
 plotSeq: False
-plotOnly: True
+plotOnly: False
 conf: src/config.yaml
 confSeq: src/configSeq.yaml
 outputDir: src/output
@@ -18,10 +18,11 @@ plotSingleParams:
   ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree']]
 plotSeqParams:
   x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
-             'removedPercentage']
-  ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree']]
+             'removedPercentage', 'removedPercentage']
+  ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree'],
+       ['diameter']]
   yAxes: ['Global Clustering Coef', 'Density', 'Alpha', 'Giant Component Size', 'Num of Components',
-                 'Avg Degree']
-  yLabels: ['clusters', 'hubs', 'random']            # fixme - careful with the order of directories
+                 'Avg Degree', 'Diameter']
+  yLabels: ['Betweenness attack', 'Bridge attack', 'Hubs attack', 'Random Failure']            # fixme - careful with the order of directories
   dir: 'sequential - attacks - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
 

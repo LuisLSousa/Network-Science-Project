@@ -223,7 +223,8 @@ def plotDemStatsOnAHigherLevel(dir, xHeader, yHeaders, yLabels, yAx='', outputFi
     reds = ['lightcoral', 'indianred', 'darkred', 'r', 'lightsalmon']
     blues = ['deepskyblue', 'darkcyan', 'lightskyblue', 'steelblue', 'azure']
     greens = ['g', 'limegreen', 'forestgreen', 'mediumseagrean', 'palegreen']
-    pallets = [reds, blues, greens]
+    greys = ['dimgrey', 'darkgrey', 'lightgrey', 'slategrey', 'silver']
+    pallets = [reds, blues, greens, greys]
 
     outputName = xHeader + ' by ['
     for n in yHeaders:

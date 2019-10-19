@@ -14,6 +14,7 @@ def calculateBasicStats(G):
 
     giantComponentSize = calcGiantComponentSize(G)
     numComponents = nx.number_connected_components(G)
+    diameter = nx.diameter(G)
 
     d = [j for i, j in  list(G.degree())]
     avgDegree = sum(d)/len(d)
