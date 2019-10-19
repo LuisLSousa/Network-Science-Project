@@ -1,5 +1,5 @@
 dataset: 'src/data/power.gml'
-attackType: bridge  # random, hubs, bridge, betweenness
+attackType: betweenness  # random, hubs, bridge, betweenness
 stopCondition: lostPercentage # density, bridge, lostPercentage
 stopCondArgs:
   threshold: 0.31  # density: 53e-5, lostPercentage: 0.5-0.3 depending on attack

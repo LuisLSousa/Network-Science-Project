@@ -46,8 +46,8 @@ argListPuppet = [
             ('hubs', performHubAttack),
             ('random', performRandFailure),
             ('clusters', performClustersAttack),
-            ('bridge', performBridgeAttack),
-            ('betweenness', performBetweennessAttack)],
+            ('bridges', performBridgeAttack),
+            ('betweenness', performBetweennessAttack)]
     },
     {
         'name': 'layout',

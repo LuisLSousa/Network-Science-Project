@@ -51,9 +51,9 @@ def performClustersAttack(G, numNodesToRemove):
         id = possibleNodes.pop(randIndex)
         print(id)
         G.remove_node(id)
+    print('!! Performed Clsuter Attack!!')
     return loopIt
 
-    print('!! Performed Bridge Attack!!')
 
 
 def performBridgeAttack(G, numNodesToRemove):
@@ -73,8 +73,8 @@ def performBridgeAttack(G, numNodesToRemove):
         id = possibleNodes.pop(randIndex)
         print(id)
         G.remove_node(id)
-    return loopIt
     print('!! Performed Bridge Attack!!')
+    return loopIt
 
 def performBetweennessAttack(G, numNodesToRemove):
 
@@ -83,18 +83,14 @@ def performBetweennessAttack(G, numNodesToRemove):
 
     betwValues = sorted(betw, reverse=True, key=lambda x: x[1])
     possibleNodes = [node for node, value in betwValues]
-    '''
+
     loopIt = numNodesToRemove if len(possibleNodes) > numNodesToRemove \
         else len(possibleNodes)
-    '''
-    if numNodesToRemove > len(possibleNodes):
-        print('Removing {} nodes'.format(numNodesToRemove))
-        for i in range(numNodesToRemove):
-            id = possibleNodes[i]
-            print(id)
-            G.remove_node(id)
-        print('!! Performed Betweenness Attack !!')
-        return numNodesToRemove
-    else:
-        print('Caanot remove more node...')
-        return 0
+
+    print('Removing {} nodes'.format(numNodesToRemove))
+    for i in range(loopIt):
+        id = possibleNodes[i]
+        print(id)
+        G.remove_node(id)
+    print('!! Performed Betweenness Attack !!')
+    return loopIt

@@ -1,6 +1,6 @@
-name: Bridge Attack - Spring
+name: experiment
 optimize: False     # Turns optimizer mode on and off
-seq: False         # Turns sequential mode on and off
+seq: True         # Turns sequential mode on and off
 plotSingle: True
 plotSeq: False
 plotOnly: False
