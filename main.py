@@ -87,23 +87,19 @@ if 'optimizer' in jconfig.keys() and 'optimize' in jconfig.keys() and jconfig['o
     results = study.trials_dataframe()
     results.to_csv(join(optimizationDir, 'optimizationTrials.csv'))
 
-    # test me
-    if jconfig['plot']:
-        unifyOutputs(optimizationDir)
-        plotDemStats(optimizationDir, jconfig['plotParams']['x'],
-                     jconfig['plotParams']['ys'])
-    changeDirName(optimizationDir, extraText=jconfig['successString'])
 
 # Import puppet configuration and run single/sequential tests
 else:
     # Plot results instead of running tests
 
-    if jconfig['plot'] and 'higherDir' in jconfig['plotParams'].keys():
-        assert (len(jconfig['plotParams']['x']) == len(jconfig['plotParams']['ys']))
-        for j in range(len(jconfig['plotParams']['x'])):
-            plotDemStatsOnAHigherLevel(join(jconfig['outputDir'], jconfig['plotParams']['higherDir']), jconfig['plotParams']['x'][j],
-                         jconfig['plotParams']['ys'][j], jconfig['plotParams']['yLabels'])
+    if 'plotOnly' in jconfig.keys() and jconfig['plotOnly']:
+        assert (len(jconfig['plotSeqParams']['x']) == len(jconfig['plotSeqParams']['ys']))
+        for j in range(len(jconfig['plotSeqParams']['x'])):
+            plotDemStatsOnAHigherLevel(join(jconfig['outputDir'], jconfig['plotSeqParams']['dir']),\
+                   jconfig['plotSeqParams']['x'][j], jconfig['plotSeqParams']['ys'][j], jconfig['plotSeqParams']['yLabels'],
+                   yAx=jconfig['plotSeqParams']['yAxes'][j])
         exit()
+
     if jconfig['seq']:
         # Sequential test:
         
@@ -140,20 +136,20 @@ else:
             puppet = Puppet(pconfig, debug=jconfig['debug'], outputDir=dir)
             puppet.pipeline()
             dumpConfiguration(pconfig, dir, unfoldConfigWith=argListPuppet)
-
-            assert (len(jconfig['plotParams']['x']) == len(jconfig['plotParams']['ys']))
-            for j in range(len(jconfig['plotParams']['x'])):
-                plotDemStats(dir, jconfig['plotParams']['x'][j],
-                             jconfig['plotParams']['ys'][j])
+            if jconfig['plotSingle']:
+                assert (len(jconfig['plotSingleParams']['x']) == len(jconfig['plotSingleParams']['ys']))
+                for j in range(len(jconfig['plotSingleParams']['x'])):
+                    plotDemStats(dir, jconfig['plotSingleParams']['x'][j],
+                                 jconfig['plotSingleParams']['ys'][j])
             changeDirName(dir, extraText=jconfig['successString'])
 
-        # test me
-        if jconfig['plot']:
-            '''
+
+        if 'plotSeqParams' in jconfig.keys() and jconfig['plotSeqParams']:
             unifyOutputs(seqTestDir)
-            plotDemStats(seqTestDir, jconfig['plotParams']['x'],
-                         jconfig['plotParams']['ys'])
-             '''
+            assert (len(jconfig['plotSeqParams']['x']) == len(jconfig['plotSeqParams']['ys']))
+            for j in range(len(jconfig['plotSeqParams']['x'])):
+                plotDemStats(seqTestDir, jconfig['plotSeqParams']['x'][j],
+                             jconfig['plotSeqParams']['ys'][j])
         changeDirName(seqTestDir, extraText=jconfig['successString'])
 
     else:
@@ -180,9 +176,9 @@ else:
         puppet = Puppet(args=pconfig, debug=jconfig['debug'], outputDir=dir)
         puppet.pipeline()
         dumpConfiguration(pconfig, dir, unfoldConfigWith=argListPuppet)
-        if jconfig['plot']:
-            assert(len(jconfig['plotParams']['x']) == len(jconfig['plotParams']['ys']))
-            for j in range(len(jconfig['plotParams']['x'])):
-                plotDemStats(dir, jconfig['plotParams']['x'][j],
-                         jconfig['plotParams']['ys'][j])
+        if jconfig['plotSingle']:
+            assert(len(jconfig['plotSingleParams']['x']) == len(jconfig['plotSingleParams']['ys']))
+            for j in range(len(jconfig['plotSingleParams']['x'])):
+                plotDemStats(dir, jconfig['plotSingleParams']['x'][j],
+                         jconfig['plotSingleParams']['ys'][j])
         changeDirName(dir, extraText=jconfig['successString'])

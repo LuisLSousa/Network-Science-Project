@@ -1,18 +1,26 @@
-name: all
+name: testrun
 optimize: False     # Turns optimizer mode on and off
 seq: False         # Turns sequential mode on and off
-plot: True
+plotSingle: True
+plotSeq: False
+plotOnly: True
 conf: src/config.yaml
 confSeq: src/configSeq.yaml
 outputDir: src/output
 debug: False
+successString: ' - finished'
 optimizer:
   numTrials: 2
   numJobs: 1
-plotParams:
+plotSingleParams:
   x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
       'removedPercentage']
   ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree']]
-  higherDir: 'sequential - Hubs & Cluster (all graphs) - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
+plotSeqParams:
+  x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
+             'removedPercentage']
+  ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree']]
+  yAxes: ['Global Clustering Coef', 'Density', 'Alpha', 'Giant Component Size', 'Num of Components',
+                 'Avg Degree']
   yLabels: ['clusters', 'hubs', 'random']            # fixme - careful with the order of directories
-successString: ' - finished'
+  dir: 'sequential - attacks - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
