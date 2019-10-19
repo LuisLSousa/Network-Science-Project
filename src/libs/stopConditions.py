@@ -10,7 +10,7 @@ def DensityStopCond(G, threshold, removedPercentage=None):
     return False
 
 
-def ClustersStopCond(G, threshold, removedPercentage=None):
+def BridgeStopCond(G, threshold, removedPercentage=None):
     clustersThreshold = float(threshold)
     globalClusterCoef = nx.transitivity(G)
     print('Global Cluster Coefficient of {}, threshold [{}]'.format(globalClusterCoef, threshold))

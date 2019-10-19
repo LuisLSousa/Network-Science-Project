@@ -205,37 +205,7 @@ def unifyOutputs(dir, logFile='logs.json', configFile='config.yaml'):
     unified_results = pd.DataFrame(data=datasetCols)
     unified_results.to_csv("{}/output.csv".format(dir), sep='\t', encoding='utf-8')
 
-    return unified_results 
-
-
-
-def multipleYsLinePlot(data, y_types, x_type, outputName='', ymin=True, ymax=True, dpi=180):
-    '''
-    :param data:    (pd.Dataframe) Data out of output.csv
-    :param y_types: (array) Headers to be used from output.csv
-    :param x_type:  (str) Single header to be used as x, from output.csv
-    :return:
-    '''
-
-    fig, ax = plt.subplots()
-    
-    if x_type == None or x_type == "index":
-        x = [str(v) for v in data.index.values]
-    else:
-        data = data.sort_values(by=[x_type])
-        x = data[x_type]
-
-    print(data)
-    maxNum = 0
-    for t in y_types:
-        ax.plot(x, data[t], label=t)
-        maxNum = max(data[t]) if max(data[t]) > maxNum else maxNum
-
-    plt.xlabel(x_type)
-    ax.legend()
-    # ax.set_ylim(bottom=0)
-    # ax.set_ylim(top=maxNum + 0.1)
-    plt.savefig(outputName, dpi=dpi)
+    return unified_results
 
 def plotDemStats(dir, xHeader, yHeaders):
     outputName = xHeader + ' by ['
@@ -248,12 +218,13 @@ def plotDemStats(dir, xHeader, yHeaders):
     data = pd.read_csv(csvLocation, sep='\t', index_col=False, encoding='utf-8')
     multipleYsLinePlot(data, yHeaders, xHeader, outputName=outputName)
 
-def plotDemStatsOnAHigherLevel(dir, xHeader, yHeaders, yLabels, outputFileName='output.csv', dpi=180):
+def plotDemStatsOnAHigherLevel(dir, xHeader, yHeaders, yLabels, yAx='', outputFileName='output.csv', dpi=180):
     colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
     reds = ['lightcoral', 'indianred', 'darkred', 'r', 'lightsalmon']
     blues = ['deepskyblue', 'darkcyan', 'lightskyblue', 'steelblue', 'azure']
     greens = ['g', 'limegreen', 'forestgreen', 'mediumseagrean', 'palegreen']
-    pallets = [reds, blues, greens]
+    greys = ['dimgrey', 'darkgrey', 'lightgrey', 'slategrey', 'silver']
+    pallets = [reds, blues, greens, greys]
 
     outputName = xHeader + ' by ['
     for n in yHeaders:
@@ -270,17 +241,48 @@ def plotDemStatsOnAHigherLevel(dir, xHeader, yHeaders, yLabels, outputFileName='
             results.append(data)
         break  # Only apply recursivness once
     fig, ax = plt.subplots()
+
     for i, res in enumerate(results):
         for j, y in enumerate(yHeaders):
             data = res.sort_values(by=[xHeader])
             x = data[xHeader]
             m = max(data[y].values)
             maxNum =  m if m > maxNum else maxNum
-            ax.plot(x, data[y], label=yLabels[i] + ' - {}'.format(y), color=colors[pallets[i][j]],
+            ax.plot(x, data[y], label=yLabels[i], color=colors[pallets[i][j]],
                     alpha=0.6)
 
     plt.xlabel(xHeader)
+    plt.ylabel(yAx)
     ax.legend()
+    plt.savefig(outputName, dpi=dpi)
+
+
+def multipleYsLinePlot(data, y_types, x_type, outputName='', ymin=True, ymax=True, dpi=180):
+    '''
+    :param data:    (pd.Dataframe) Data out of output.csv
+    :param y_types: (array) Headers to be used from output.csv
+    :param x_type:  (str) Single header to be used as x, from output.csv
+    :return:
+    '''
+
+    fig, ax = plt.subplots()
+
+    if x_type == None or x_type == "index":
+        x = [str(v) for v in data.index.values]
+    else:
+        data = data.sort_values(by=[x_type])
+        x = data[x_type]
+
+    print(data)
+    maxNum = 0
+    for t in y_types:
+        ax.plot(x, data[t], label=t)
+        maxNum = max(data[t]) if max(data[t]) > maxNum else maxNum
+
+    plt.xlabel(x_type)
+    ax.legend()
+    # ax.set_ylim(bottom=0)
+    # ax.set_ylim(top=maxNum + 0.1)
     plt.savefig(outputName, dpi=dpi)
 
 '''

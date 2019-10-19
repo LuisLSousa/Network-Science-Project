@@ -34,7 +34,7 @@ def performRandFailure(G, numNodesToRemove):
 def performBridgeAttack(G, numNodesToRemove):
     # if clusters are connected by a single node, remove that node
     degrees = list(G.degree())
-    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G , node) < nx.transitivity(G)) ]
+    possibleNodes = [node for node, degree in degrees if (degree >= 2 and nx.clustering(G , node) == 0) ]
     # or nx.clustering < X, with x being a number we see fit
     # nx.clustering(G , node) < nx.transitivity(G)) -> we remove all nodes with a cf < global cf
 

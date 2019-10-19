@@ -33,7 +33,7 @@ argListPuppet = [
         'help': '[String] When to stop performing actions to the graph',
         'possibilities': [
             ('density', DensityStopCond),
-            ('clusters', ClustersStopCond),
+            ('bridge', BridgeStopCond),
             ('lostPercentage', graphPercentageLostStopCond)],
     },
     {
