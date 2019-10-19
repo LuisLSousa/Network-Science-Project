@@ -6,15 +6,18 @@ import powerlaw
 def calculateBasicStats(G):
     density = nx.density(G)  # orig: 0.0005403026973346214
     globalClusteringCoef = nx.transitivity(G)  # orig: 0.10315322452860086
-    if nx.is_connected(G):
-        avgShortPathLen = nx.average_shortest_path_length(G)  # orig: 18.989185424445708
+
+    giantComponent, giantComponentSize = calcGiantComponentSize(G)
+    numComponents = nx.number_connected_components(G)
+
+    giantComponentASPL = nx.average_shortest_path_length(giantComponent)   # orig: 18.989185424445708
+
+    degreeVariance = calcDegreeVariance(G)
 
     degrees = [i[1] for i in G.degree]
     alpha, sigma, loglikelihoodRatio, pVal = computePowerLawFitValues(degrees)
 
-    giantComponentSize = calcGiantComponentSize(G)
-    numComponents = nx.number_connected_components(G)
-    giantComponentDiameter = calcGiantComponentDiameter(G)
+    giantComponentDiameter = calcGiantComponentDiameter(giantComponent)         # orig ??
 
     d = [j for i, j in  list(G.degree())]
     avgDegree = sum(d)/len(d)
@@ -58,9 +61,20 @@ def computePowerLawFitValues(degrees):
 def calcGiantComponentSize(G):
     subGraphs = list(nx.connected_component_subgraphs(G, copy=True))
     giantComponent = max(subGraphs, key=len)
-    return len(giantComponent.nodes())
+    return giantComponent, len(giantComponent.nodes())
 
 def calcGiantComponentDiameter(G):
     subGraphs = list(nx.connected_component_subgraphs(G, copy=True))
     giantComponent = max(subGraphs, key=len)
     diameter = nx.diameter(giantComponent)
+    return diameter
+
+def calcDegreeVariance(G):
+    degreeFrequencies = np.array(nx.degree_histogram(G))
+
+    degrees = [i[1] for i in G.degree]
+    degreesSquared = [d**2 for d in degrees]
+    r = [d*degreeFrequencies[degrees[i]] for i, d in enumerate(degreesSquared)]
+    var=sum(r)/len(r)
+    print('var: {}'.format(var))
+    return var

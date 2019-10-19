@@ -14,15 +14,16 @@ optimizer:
   numJobs: 1
 plotSingleParams:
   x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
-      'removedPercentage']
-  ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree']]
+      'removedPercentage', 'removedPercentage', 'removedPercentage']
+  ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree'],
+         ['giantComponentDiameter'], ['giantComponentASPL'] ]
 plotSeqParams:
   x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
-             'removedPercentage', 'removedPercentage']
+             'removedPercentage', 'removedPercentage', 'removedPercentage']
   ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree'],
-       ['giantComponentDiameter']]
+       ['giantComponentDiameter'], ['giantComponentASPL']]
   yAxes: ['Global Clustering Coef', 'Density', 'Alpha', 'Giant Component Size', 'Num of Components',
-                 'Avg Degree', 'Diameter of Giant Component']
+                 'Avg Degree', 'Diameter of Giant Component', 'Giant Component Avg Shortest Path Length']
   yLabels: ['Betweenness attack', 'Bridge attack', 'Hubs attack', 'Random Failure']            # fixme - careful with the order of directories
   dir: 'sequential - attacks - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
 
