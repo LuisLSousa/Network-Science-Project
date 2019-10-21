@@ -1,4 +1,4 @@
-from utils import str2bool
+from libs.utils import str2bool
 from src.libs.stopConditions import *
 from src.libs.attackType import *
 import networkx as nx

@@ -48,7 +48,9 @@ class Puppet:
                 stats['iteration'] = it
                 stats['removedPercentage'] = calcRemovedPercentage(self.G, self.initialNumNodes)
                 logs.append(stats)
-                # self.plots('midExecution', it)
+                if 'final' in self.args['plot']:
+                    self.plots('midExecution', it)
+
             stopCondArgs['removedPercentage'] = calcRemovedPercentage(self.G, self.initialNumNodes)
 
         results = {}
@@ -62,7 +64,8 @@ class Puppet:
         with open(join(self.outputDir, 'logs.pkl'), 'wb') as f:
             pkl.dump(results, f)
 
-        self.plots('final')
+        if 'final' in self.args['plot']:
+            self.plots('final')
 
 
 
@@ -75,15 +78,10 @@ class Puppet:
 
 
         if type is 'final':
-            '''drawGraphWithHubs(self.G, self.args['hubPercentage'],
-                              join(self.outputDir, 'Hubs - final'), pos)
-            '''
-            pass
-            # drawGraphWithHubsV2(self.G, pos,  self.args['hubPercentage'],
-            #                     join(self.outputDir, 'Hubs - final'), dpi=self.args['dpi'])
 
-            # degrees = [i[1] for i in self.G.degree]
-            # drawGiantComponent(self.G, join(self.outputDir, 'giantComponent - final.png'), pos, dpi=self.args['dpi'])
-
-            # drawDegreeDistributionWithPowerLaw(degrees) # crashes can't plot infinity :(
+            drawGraphWithHubsV2(self.G, pos,  self.args['hubPercentage'],
+                                 join(self.outputDir, 'Hubs - final'), dpi=self.args['dpi'])
+            degrees = [i[1] for i in self.G.degree]
+            drawGiantComponent(self.G, join(self.outputDir, 'giantComponent - final.png'), pos, dpi=self.args['dpi'])
+            drawDegreeDistributionWithPowerLaw(degrees) # crashes can't plot infinity :(
 

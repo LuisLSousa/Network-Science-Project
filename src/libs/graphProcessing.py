@@ -6,18 +6,19 @@ import powerlaw
 def calculateBasicStats(G):
     density = nx.density(G)  # orig: 0.0005403026973346214
     globalClusteringCoef = nx.transitivity(G)  # orig: 0.10315322452860086
-
+    '''
     giantComponent, giantComponentSize = calcGiantComponentSize(G)
     numComponents = nx.number_connected_components(G)
 
     giantComponentASPL = nx.average_shortest_path_length(giantComponent)   # orig: 18.989185424445708
 
-    degreeVariance = calcDegreeVariance(G)
+    degreeVariance = calcDegreeVariance(G)'''
 
+    '''
     degrees = [i[1] for i in G.degree]
     alpha, sigma, loglikelihoodRatio, pVal = computePowerLawFitValues(degrees)
-
-    giantComponentDiameter = calcGiantComponentDiameter(giantComponent)         # orig ??
+    '''
+    # giantComponentDiameter = calcGiantComponentDiameter(giantComponent)         # orig ??
 
     d = [j for i, j in  list(G.degree())]
     avgDegree = sum(d)/len(d)

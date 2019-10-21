@@ -1,9 +1,9 @@
 configs:
   - dataset: 'src/data/power.gml'
-    attackType: bridges  # random, hubs, clusters
+    attackType: clusters  # random, hubs, clusters
     stopCondition: lostPercentage # density, clusters, lostPercentage
     stopCondArgs:
-      threshold: 0.28  # density: 53e-5, clusters: original = 0.103, lostPercentage:
+      threshold: 0.5  # density: 53e-5, clusters: original = 0.103, lostPercentage:
     hubPercentage: 0.02
     numNodesToRemove: 15 # per iteration
     dpi: 500
@@ -14,10 +14,10 @@ configs:
     attackType: betweenness  # random, hubs, clusters
     stopCondition: lostPercentage # density, clusters, lostPercentage
     stopCondArgs:
-      threshold: 0.28  # density: 53e-5, clusters: original = 0.103, lostPercentage:
+      threshold: 0.36  # density: 53e-5, clusters: original = 0.103, lostPercentage:
     hubPercentage: 0.02
     numNodesToRemove: 60 # per iteration
     dpi: 500
-    initialLog: 0
-    logFreq: 8    # From x to x iterations we calculate graph stats
+    initialLog: 1
+    logFreq: 4    # From x to x iterations we calculate graph stats
     layout: 'spring'    # 'spring', 'spectral', 'shell'

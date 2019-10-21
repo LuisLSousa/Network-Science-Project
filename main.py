@@ -1,8 +1,11 @@
 from sys import exit
-from utils import *
+from libs.utils import *
+from libs.dir import *
+from libs.standardPlots import *
 from src.puppet import Puppet
 from src.args import argListPuppet
 from argsConf.jarvisArgs import argListJarvis
+from argsConf.plotArgs import argListPlots
 from os.path import join
 import optuna
 
@@ -42,6 +45,10 @@ if 'name' not in jconfig.keys() or ('name' in jconfig.keys() and jconfig['name']
     jconfig['name'] = randomName(7)
 
 printDict(jconfig, statement="> JARVIS using args:")
+
+# Import plot args:
+if 'confPlot' in jconfig.keys():
+    plotConfig = getConfiguration(jconfig['confPlot'])
 
 if 'optimizer' in jconfig.keys() and 'optimize' in jconfig.keys() and jconfig['optimize']:
 
@@ -90,14 +97,13 @@ if 'optimizer' in jconfig.keys() and 'optimize' in jconfig.keys() and jconfig['o
 
 # Import puppet configuration and run single/sequential tests
 else:
-    # Plot results instead of running tests
 
-    if 'plotOnly' in jconfig.keys() and jconfig['plotOnly']:
-        assert (len(jconfig['plotSeqParams']['x']) == len(jconfig['plotSeqParams']['ys']))
-        for j in range(len(jconfig['plotSeqParams']['x'])):
-            plotDemStatsOnAHigherLevel(join(jconfig['outputDir'], jconfig['plotSeqParams']['dir']),\
-                   jconfig['plotSeqParams']['x'][j], jconfig['plotSeqParams']['ys'][j], jconfig['plotSeqParams']['yLabels'],
-                   yAx=jconfig['plotSeqParams']['yAxes'][j])
+    if 'only' in jconfig['plot']:
+        # Instead of running puppet, simply make some plots
+
+        dir = join(jconfig['outputDir'], plotConfig['plotOnlyParams']['dir'])
+        c = makePlotConf(plotConfig, 'plotOnlyParams')
+        makePrettyPlots(jconfig['plot'], c, argListPlots, 'only', dir, unify=False)
         exit()
 
     if jconfig['seq']:
@@ -136,20 +142,15 @@ else:
             puppet = Puppet(pconfig, debug=jconfig['debug'], outputDir=dir)
             puppet.pipeline()
             dumpConfiguration(pconfig, dir, unfoldConfigWith=argListPuppet)
-            if jconfig['plotSingle']:
-                assert (len(jconfig['plotSingleParams']['x']) == len(jconfig['plotSingleParams']['ys']))
-                for j in range(len(jconfig['plotSingleParams']['x'])):
-                    plotDemStats(dir, jconfig['plotSingleParams']['x'][j],
-                                 jconfig['plotSingleParams']['ys'][j])
+
+            c = makePlotConf(plotConfig, 'plotSingleParams')
+            makePrettyPlots(jconfig['plot'], c, argListPlots, 'single', dir, unify=False)
+
             changeDirName(dir, extraText=jconfig['successString'])
 
-
-        if 'plotSeqParams' in jconfig.keys() and jconfig['plotSeqParams']:
-            unifyOutputs(seqTestDir)
-            assert (len(jconfig['plotSeqParams']['x']) == len(jconfig['plotSeqParams']['ys']))
-            for j in range(len(jconfig['plotSeqParams']['x'])):
-                plotDemStats(seqTestDir, jconfig['plotSeqParams']['x'][j],
-                             jconfig['plotSeqParams']['ys'][j])
+        c=makePlotConf(plotConfig, 'plotSeqParams')
+        makePrettyPlots(jconfig['plot'], c, argListPlots, 'seq', seqTestDir, unify=True,
+                        logFile='logs.json', configFile='config.yaml', unificationType=plotConfig['seqLogConversion'])
         changeDirName(seqTestDir, extraText=jconfig['successString'])
 
     else:
@@ -176,9 +177,10 @@ else:
         puppet = Puppet(args=pconfig, debug=jconfig['debug'], outputDir=dir)
         puppet.pipeline()
         dumpConfiguration(pconfig, dir, unfoldConfigWith=argListPuppet)
-        if jconfig['plotSingle']:
-            assert(len(jconfig['plotSingleParams']['x']) == len(jconfig['plotSingleParams']['ys']))
-            for j in range(len(jconfig['plotSingleParams']['x'])):
-                plotDemStats(dir, jconfig['plotSingleParams']['x'][j],
-                         jconfig['plotSingleParams']['ys'][j])
+
+        c=makePlotConf(plotConfig, 'plotSingleParams')
+        makePrettyPlots(jconfig['plot'], c, argListPlots, 'single', dir, unify=False)
+
         changeDirName(dir, extraText=jconfig['successString'])
+
+

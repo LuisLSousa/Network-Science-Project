@@ -1,0 +1,26 @@
+seqLogConversion: 'yaml,json-Csv'
+x: ['removedPercentage', 'removedPercentage']
+ys: [['globalClusteringCoef'], ['density']]
+dpi: 500
+logFile: output.csv
+
+plotSingleParams:
+  type: ['line']
+  level: 'localCSV'
+  yAxes: ['Global Clustering Coef', 'Density']
+
+plotSeqParams:
+  type: ['lineHigher']
+  level: 'localCSV'
+  yAxes: ['Global Clustering Coef', 'Density']
+
+
+plotOnlyParams:
+  dir: 'sequential - final execution'
+  type: ['lineHigher']
+  level: 'fetchCSV'
+  # yAxes: ['Global Clustering Coef', 'Density']
+  yLabels: ['Hubs attack', 'Bridge attack (th: 0.0)', 'Random Failure', 'Bridge attack (th: 0.10315)', 'Betweenness attack']
+  # fixme - careful with the order of directories
+  pallets: True
+

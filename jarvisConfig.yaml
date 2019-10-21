@@ -1,29 +1,13 @@
 name: experiment
-optimize: False     # Turns optimizer mode on and off
-seq: True         # Turns sequential mode on and off
-plotSingle: True
-plotSeq: False
-plotOnly: False
+optimize: False         # Turns optimizer mode on and off
+seq: False              # Turns sequential mode on and off
+plot: ['only']            # Plot modes to activate: single, seq, only
 conf: src/config.yaml
 confSeq: src/configSeq.yaml
+confPlot: plotConfig.yaml
 outputDir: src/output
 debug: False
 successString: ' - finished'
 optimizer:
   numTrials: 2
   numJobs: 1
-plotSingleParams:
-  x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
-      'removedPercentage', 'removedPercentage', 'removedPercentage']
-  ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree'],
-         ['giantComponentDiameter'], ['giantComponentASPL'] ]
-plotSeqParams:
-  x: ['removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage', 'removedPercentage',
-             'removedPercentage', 'removedPercentage', 'removedPercentage']
-  ys: [['globalClusteringCoef'], ['density'], ['alpha'], ['giantComponentSize'], ['numComponents'], ['avgDegree'],
-       ['giantComponentDiameter'], ['giantComponentASPL']]
-  yAxes: ['Global Clustering Coef', 'Density', 'Alpha', 'Giant Component Size', 'Num of Components',
-                 'Avg Degree', 'Diameter of Giant Component', 'Giant Component Avg Shortest Path Length']
-  yLabels: ['Betweenness attack', 'Bridge attack', 'Hubs attack', 'Random Failure']            # fixme - careful with the order of directories
-  dir: 'sequential - attacks - finished'        # [ONLY FOR HIGHER PLOTS] In addition to output
-
